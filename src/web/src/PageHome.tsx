@@ -6,7 +6,7 @@ import { AppContext } from "./App";
 export const PageHome: React.FC = () =>
 {
     useEffect(() => {
-        document.title = "Polymedia Profile - Home";
+        document.title = "Walrus Profile - Home";
     }, []);
 
     const { network, profileClient } = useOutletContext<AppContext>();
@@ -16,7 +16,7 @@ export const PageHome: React.FC = () =>
             HOME
         </h1>
         <p>
-            Polymedia Profile is a fully on-chain profile system on <a href="https://sui.io" target="_blank" rel="noopener noreferrer">Sui</a>. It lets users attach a profile (name, picture, etc) to their Sui address. Over 137,000 profiles have been created to date.
+            Walrus Profile is a fully on-chain profile system on <a href="https://sui.io" target="_blank" rel="noopener noreferrer">Sui</a>. It lets users attach a profile (name, picture, etc) to their Sui address. Over 137,000 profiles have been created to date.
             <br/>
             <br/>
 

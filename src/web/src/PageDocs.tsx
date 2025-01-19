@@ -6,7 +6,7 @@ import { AppContext } from "./App";
 export const PageDocs: React.FC = () =>
 {
     useEffect(() => {
-        document.title = "Polymedia Profile - Docs";
+        document.title = "Walrus Profile - Docs";
     }, []);
 
     const { network, profileClient } = useOutletContext<AppContext>();

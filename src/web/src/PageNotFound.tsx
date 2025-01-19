@@ -3,7 +3,7 @@ import { useEffect } from "react";
 export function PageNotFound()
 {
     useEffect(() => {
-        document.title = "Polymedia Profile - Not found";
+        document.title = "Walrus Profile - Not found";
     }, []);
 
     return <div id="page" className="page-notfound">

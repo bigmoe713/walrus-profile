@@ -26,7 +26,7 @@ export const PageProfileSearch: React.FC = () =>
     /* Functions */
 
     useEffect(() => {
-        document.title = "Polymedia Profile - Search";
+        document.title = "Walrus Profile - Search";
     }, []);
 
     useEffect(() => {
@@ -97,7 +97,7 @@ export const PageProfileSearch: React.FC = () =>
         <h1>SEARCH PROFILES</h1>
 
         <p>
-            Enter one or more Sui addresses to fetch their profiles.
+            Enter one or more Sui addresses to fetch their Walrus profiles.
         </p>
 
         <form className="form">

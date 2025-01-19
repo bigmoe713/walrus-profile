@@ -9,7 +9,7 @@ import { notifyError } from "./components/Notification";
 export function PageRegistryNew()
 {
     useEffect(() => {
-        document.title = "Polymedia Profile - New Registry";
+        document.title = "Walrus Profile - New Registry";
     }, []);
 
     const suiClient = useSuiClient();

@@ -31,9 +31,9 @@ export const Nav: React.FC<{
 
         <div id="nav-logo" className="nav-section">
             <Link to="/" id="nav-logo-link" onClick={closeMobileNav}>
-                <img id="nav-logo-img" src="https://assets.polymedia.app/img/all/logo-nomargin-transparent-512x512.webp" alt="Polymedia logo" />
+            <img id="nav-logo-img" src="/img/background_bloblife.png" alt="Bloblife logo" />
                 <span id="nav-logo-txt">
-                    <span id="nav-title-polymedia">POLYMEDIA</span>
+                    <span id="nav-title-polymedia">WALRUS</span>
                     <span id="nav-title-profile">PROFILE</span>
                 </span>
             </Link>
@@ -88,7 +88,7 @@ export const Nav: React.FC<{
 
             <div id="nav-watermark" className="nav-section">
                 <div className="nav-social-link">
-                    <a href="https://polymedia.app" target="_blank" rel="noopener noreferrer">Polymedia {new Date().getFullYear()}</a>
+                    <a href="https://polymedia.app" target="_blank" rel="noopener noreferrer">BlobLife Labs {new Date().getFullYear()}</a>
                 </div>
             </div>
         </div>

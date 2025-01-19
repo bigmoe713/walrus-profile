@@ -22,7 +22,7 @@ export const PageProfileView: React.FC = () =>
     /* Functions */
 
     useEffect(() => {
-        document.title = "Polymedia Profile - View";
+        document.title = "Walrus Profile - View";
         loadProfile();
     }, []);
 

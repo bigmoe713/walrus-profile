@@ -38,7 +38,7 @@ export const PageProfileManage: React.FC = () =>
     /* Functions */
 
     useEffect(() => {
-        document.title = "Polymedia Profile - Manage";
+        document.title = "Walrus Profile - Manage";
     }, []);
 
     useEffect(() => {
@@ -173,7 +173,7 @@ export const PageProfileManage: React.FC = () =>
     if (!currentAccount) {
         view = <div>
             <p>
-                Connect your Sui wallet to create your profile.<br/>It's free and only takes a few seconds!
+                Connect your Sui wallet to create your Walrus profile.<br/>It's free and only takes a few seconds!
             </p>
             <button onClick={openConnectModal}>LOG IN</button>
         </div>;
