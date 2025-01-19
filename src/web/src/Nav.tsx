@@ -63,9 +63,7 @@ export const Nav: React.FC<{
                 <div className="nav-page-link">
                     <Link to="/search" onClick={closeMobileNav}>SEARCH</Link>
                 </div>
-                <div className="nav-page-link">
-                    <Link to="/docs" onClick={closeMobileNav}>DOCS</Link>
-                </div>
+               
                 {/*<div className='nav-page-link'>
                     <Link to='/profile/new' onClick={closeMobileNav}>New Profile</Link>
                 </div>
@@ -76,19 +74,17 @@ export const Nav: React.FC<{
 
             <div id="nav-socials" className="nav-section">
                 <div className="nav-social-link">
-                    <a href="https://github.com/juzybits/polymedia-profile" target="_blank" rel="noopener noreferrer">Github</a>
+                    <a href="https://bloblife.xyz" target="_blank" rel="noopener noreferrer">Website</a>
                 </div>
                 <div className="nav-social-link">
-                    <a href="https://twitter.com/polymedia_app" target="_blank" rel="noopener noreferrer">Twitter</a>
+                    <a href="https://x.com/BlobLifeLabs" target="_blank" rel="noopener noreferrer">Twitter</a>
                 </div>
-                <div className="nav-social-link">
-                    <a href="https://discord.gg/3ZaE69Eq78" target="_blank" rel="noopener noreferrer">Discord</a>
-                </div>
+               
             </div>
 
             <div id="nav-watermark" className="nav-section">
                 <div className="nav-social-link">
-                    <a href="https://polymedia.app" target="_blank" rel="noopener noreferrer">BlobLife Labs {new Date().getFullYear()}</a>
+                    <a href="https://x.com/BlobLifeLabs" target="_blank" rel="noopener noreferrer">BlobLifeLabs {new Date().getFullYear()}</a>
                 </div>
             </div>
         </div>

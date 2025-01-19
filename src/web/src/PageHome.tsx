@@ -16,16 +16,16 @@ export const PageHome: React.FC = () =>
             HOME
         </h1>
         <p>
-            Walrus Profile is a fully on-chain profile system on <a href="https://sui.io" target="_blank" rel="noopener noreferrer">Sui</a>. It lets users attach a profile (name, picture, etc) to their Sui address. Over 137,000 profiles have been created to date.
+            Walrus Profile is a fully on-chain profile system on <a href="https://sui.io" target="_blank" rel="noopener noreferrer">Sui</a>  - with the default registry being stored on Walrus Protocol. It lets users attach a profile (name, picture, etc) to their Sui address. 
             <br/>
             <br/>
 
-            This web app lets users manage their profiles on the default registry, called <i><a href={makePolymediaUrl(network, "object", profileClient.registryId)} target="_blank" rel="noopener noreferrer">polymedia-main</a></i>.
+            This web app lets users manage their profiles on the default registry, called <i><a href="https://sui.io" target="_blank" rel="noopener noreferrer">profile-main</a></i>.
             <br/>
             <br/>
-            The code is fully <a href="https://github.com/juzybits/polymedia-profile" target="_blank" rel="noopener noreferrer">open-source</a>, and there is a <a href="https://www.npmjs.com/package/@polymedia/profile-sdk" target="_blank" rel="noopener noreferrer">TypeScript SDK</a> to facilitate 3rd party integrations.
+            The code will be fully open-source, and there will be a TypeScript SDK to facilitate 3rd party integrations.
         </p>
         <Link to="/manage" className="btn" style={{marginRight: "0.5em"}}>MANAGE PROFILE</Link>
-        <Link to="/docs" className="btn">READ DOCS</Link>
+        
     </div>;
 };
