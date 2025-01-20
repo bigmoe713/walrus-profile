@@ -1,0 +1,7 @@
+network: https://sui-testnet.walrus.network:443
+gas:
+  budget: 10000000
+site:
+  name: "walrus-profile"
+  description: "My Walrus Profile Site"
+  expiration_in_days: 30
