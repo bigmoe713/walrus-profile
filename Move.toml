@@ -1,5 +1,5 @@
 [package]
-name = "walrus-profile" 
+name = "walrus-profile"
 version = "0.0.1"
 
 [dependencies]
@@ -9,3 +9,4 @@ WalrusProtocol = { git = "https://github.com/walrus-labs/walrus-protocol.git", s
 [addresses]
 walrus_profile = "0x0"
 sui = "0x2"
+walrus_protocol = "0x891d3ffb6a34c91c569810f0b05d972aa1730589a39def672c6e96f67321d397"

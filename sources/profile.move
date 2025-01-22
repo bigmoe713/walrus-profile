@@ -11,17 +11,18 @@
 
 module polymedia_profile::profile
 {
-    use std::string::{String, utf8};
-    use std::vector;
-    use sui::display::{Self};
-    use sui::dynamic_field;
-    use sui::dynamic_object_field;
-    use sui::event;
-    use sui::object::{Self, ID, UID};
-    use sui::package::{Self};
-    use sui::table::{Self, Table};
-    use sui::transfer;
-    use sui::tx_context::{Self, TxContext};
+use std::string::{String, utf8};
+use std::vector;
+use sui::display::{Self};
+use sui::dynamic_field;
+use sui::dynamic_object_field;
+use sui::event;
+use sui::object::{Self, ID, UID};
+use sui::table::{Self, Table};
+use sui::transfer;
+use sui::tx_context::{Self, TxContext};
+use walrus_protocol::blob;
+use walrus_protocol::registry;
 
     /* Structs */
 
@@ -31,13 +32,15 @@ module polymedia_profile::profile
         profiles: Table<address, address>,
     }
 
-    struct Profile has key {
-        id: UID,
-        name: String,
-        image_url: String,
-        description: String,
-        data: String,
-    }
+   struct Profile has key {
+    id: UID,
+    name: String,
+    image_url: String,
+    description: String, 
+    data: String,
+    image_blob_id: ID,  // add this for walrus blob storage
+    registry: ID        // add this for walrus registry
+}
 
     /* Events */
 
@@ -72,34 +75,41 @@ module polymedia_profile::profile
     /// Create a new Profile for the sender, and add it to a Registry.
     /// Aborts if the sender already has a Profile inside the Registry,
     /// with `sui::dynamic_field::EFieldAlreadyExists`.
-    public entry fun create_profile(
-        registry: &mut Registry,
-        name: vector<u8>,
-        image_url: vector<u8>,
-        description: vector<u8>,
-        data: vector<u8>,
-        ctx: &mut TxContext,
-    ) {
-        let profile_uid = object::new(ctx);
-        let profile_id = object::uid_to_inner(&profile_uid);
-        let profile_addr = object::uid_to_address(&profile_uid);
-        let sender_addr = tx_context::sender(ctx);
+   public entry fun create_profile(
+    registry: &mut Registry,
+    name: vector<u8>,
+    image_url: vector<u8>,
+    description: vector<u8>,
+    data: vector<u8>,
+    image_bytes: vector<u8>,  // new param for walrus blob
+    ctx: &mut TxContext,
+) {
+    let profile_uid = object::new(ctx);
+    let profile_id = object::uid_to_inner(&profile_uid);
+    let profile_addr = object::uid_to_address(&profile_uid);
+    let sender_addr = tx_context::sender(ctx);
+    
+    // create walrus blob for image
+    let blob_id = blob::create(image_bytes, ctx);
+    
+    let profile = Profile {
+        id: profile_uid,
+        name: utf8(name),
+        image_url: utf8(image_url),
+        description: utf8(description),
+        data: utf8(data),
+        image_blob_id: blob_id,
+        registry: registry::get_default_id()
+    };
+    
+    table::add(&mut registry.profiles, sender_addr, profile_addr);
+    transfer::transfer(profile, sender_addr);
 
-        let profile = Profile {
-            id: profile_uid,
-            name: utf8(name),
-            image_url: utf8(image_url),
-            description: utf8(description),
-            data: utf8(data),
-        };
-        table::add(&mut registry.profiles, sender_addr, profile_addr);
-        transfer::transfer(profile, sender_addr);
-
-        event::emit(EventCreateProfile {
-            profile_id,
-            registry_id: object::id(registry),
-        });
-    }
+    event::emit(EventCreateProfile {
+        profile_id,
+        registry_id: object::id(registry),
+    });
+}
 
     /// Add a Profile (and the sender) to a Registry.
     /// Aborts if the sender already has a Profile inside the Registry,
