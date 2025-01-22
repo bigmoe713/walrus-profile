@@ -3,10 +3,10 @@ name = "walrus-profile"
 version = "0.0.1"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet" }
-WalrusProtocol = { git = "https://github.com/walrus-labs/walrus-protocol.git", subdir = "protocol", rev = "testnet" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
+WalrusProtocol = { git = "https://github.com/MystenLabs/walrus.git", subdir = "protocol", rev = "framework/testnet" }
+
 
 [addresses]
 walrus_profile = "0x0"
 sui = "0x2"
-walrus_protocol = "0x891d3ffb6a34c91c569810f0b05d972aa1730589a39def672c6e96f67321d397"
