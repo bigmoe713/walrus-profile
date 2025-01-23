@@ -21,16 +21,17 @@ use sui::object::{Self, ID, UID};
 use sui::table::{Self, Table};
 use sui::transfer;
 use sui::tx_context::{Self, TxContext};
-use walrus_protocol::blob;
-use walrus_protocol::registry;
+use sui::package;
+
+
 
     /* Structs */
 
-    struct Registry has key {
-        id: UID,
-        name: String,
-        profiles: Table<address, address>,
-    }
+    struct Registry has key, store {
+    id: UID,
+    name: String,
+    profiles: Table<address, address>,
+}
 
    struct Profile has key {
     id: UID,
@@ -75,39 +76,33 @@ use walrus_protocol::registry;
     /// Create a new Profile for the sender, and add it to a Registry.
     /// Aborts if the sender already has a Profile inside the Registry,
     /// with `sui::dynamic_field::EFieldAlreadyExists`.
-   public entry fun create_profile(
-    registry: &mut Registry,
+public entry fun create_profile(
     name: vector<u8>,
-    image_url: vector<u8>,
+    image_url: vector<u8>, 
     description: vector<u8>,
     data: vector<u8>,
-    image_bytes: vector<u8>,  // new param for walrus blob
     ctx: &mut TxContext,
 ) {
-    let profile_uid = object::new(ctx);
-    let profile_id = object::uid_to_inner(&profile_uid);
-    let profile_addr = object::uid_to_address(&profile_uid);
+    // Create new UID and get ID
+ let profile_uid = object::new(ctx);
+let profile_id = object::uid_to_inner(&profile_uid);
+
+let profile = Profile {
+    id: profile_uid,  // use the original UID here instead of creating new
+    name: utf8(name),
+    image_url: utf8(image_url),
+    description: utf8(description),
+    data: utf8(data),
+    image_blob_id: profile_id,
+    registry: profile_id
+};
+
     let sender_addr = tx_context::sender(ctx);
-    
-    // create walrus blob for image
-    let blob_id = blob::create(image_bytes, ctx);
-    
-    let profile = Profile {
-        id: profile_uid,
-        name: utf8(name),
-        image_url: utf8(image_url),
-        description: utf8(description),
-        data: utf8(data),
-        image_blob_id: blob_id,
-        registry: registry::get_default_id()
-    };
-    
-    table::add(&mut registry.profiles, sender_addr, profile_addr);
     transfer::transfer(profile, sender_addr);
 
     event::emit(EventCreateProfile {
         profile_id,
-        registry_id: object::id(registry),
+        registry_id: profile_id,
     });
 }
 

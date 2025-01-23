@@ -2,7 +2,7 @@
 
 [move]
 version = 3
-manifest_digest = "588C429908F06913C9536D2DAD37A10ADC4F3F0DAF3B6DBB20EE765B84B4591E"
+manifest_digest = "15B02F9987CB2E38B1364280A13B09B6B32A8EBD4E975F6547D8C565D8F0D13D"
 deps_digest = "F8BBB0CCB2491CA29A3DF03D6F92277A4F3574266507ACD77214D37ECA3F3082"
 dependencies = [
   { id = "Sui", name = "Sui" },
@@ -21,6 +21,14 @@ dependencies = [
 ]
 
 [move.toolchain-version]
-compiler-version = "1.39.3"
+compiler-version = "1.41.1"
 edition = "2024"
 flavor = "sui"
+
+[env]
+
+[env.testnet]
+chain-id = "4c78adac"
+original-published-id = "0x920c2e7e8cc6295119b72e1107efdc0feebadd034fad1d81f26f37b80704b8a2"
+latest-published-id = "0x920c2e7e8cc6295119b72e1107efdc0feebadd034fad1d81f26f37b80704b8a2"
+published-version = "1"
