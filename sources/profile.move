@@ -27,21 +27,32 @@ use sui::package;
 
     /* Structs */
 
-    struct Registry has key, store {
+   struct Registry has key, store {
     id: UID,
     name: String,
-    profiles: Table<address, address>,
+    profiles: Table<address, Profile>
 }
 
-   struct Profile has key {
+struct Profile has key {
     id: UID,
     name: String,
     image_url: String,
-    description: String, 
+    description: String,
     data: String,
-    image_blob_id: ID,  // add this for walrus blob storage
-    registry: ID        // add this for walrus registry
+    image_blob_id: Option<ID>,  // optional blob reference
+    registry_id: Option<ID>     // optional registry reference
 }
+
+// Add registry creation here
+public entry fun create_registry(ctx: &mut TxContext) {
+    let registry = Registry {
+        id: object::new(ctx),
+        name: string::utf8(b"Polymedia Profile Registry"),
+        profiles: table::new(ctx)
+    };
+    transfer::public_share_object(registry)
+    }
+
 
     /* Events */
 
@@ -77,32 +88,28 @@ use sui::package;
     /// Aborts if the sender already has a Profile inside the Registry,
     /// with `sui::dynamic_field::EFieldAlreadyExists`.
 public entry fun create_profile(
-    name: vector<u8>,
-    image_url: vector<u8>, 
-    description: vector<u8>,
-    data: vector<u8>,
-    ctx: &mut TxContext,
+    registry: &mut Registry,
+    name: String,
+    image_url: String, 
+    description: String,
+    data: String,
+    ctx: &mut TxContext
 ) {
-    // Create new UID and get ID
- let profile_uid = object::new(ctx);
-let profile_id = object::uid_to_inner(&profile_uid);
-
-let profile = Profile {
-    id: profile_uid,  // use the original UID here instead of creating new
-    name: utf8(name),
-    image_url: utf8(image_url),
-    description: utf8(description),
-    data: utf8(data),
-    image_blob_id: profile_id,
-    registry: profile_id
-};
-
-    let sender_addr = tx_context::sender(ctx);
-    transfer::transfer(profile, sender_addr);
-
+    let profile = Profile {
+        id: object::new(ctx),
+        name,
+        image_url,
+        description,
+        data,
+        image_blob_id: option::none(),
+        registry_id: option::some(object::id(registry))
+    };
+    
+    table::add(&mut registry.profiles, tx_context::sender(ctx), profile);
+    
     event::emit(EventCreateProfile {
-        profile_id,
-        registry_id: profile_id,
+        profile_id: object::id(&profile),
+        registry_id: object::id(registry)
     });
 }
 
@@ -233,6 +240,19 @@ let profile = Profile {
         transfer::public_transfer(publisher, tx_context::sender(ctx));
         transfer::public_transfer(profile_display, tx_context::sender(ctx));
     }
+}
+
+struct Registry has key {
+    id: UID,
+    profiles: Table<address, Profile>
+}
+
+public entry fun create_registry(ctx: &mut TxContext) {
+    let registry = Registry {
+        id: object::new(ctx),
+        profiles: table::new(ctx)
+    };
+    transfer::public_share_object(registry)
 }
 
 /*
