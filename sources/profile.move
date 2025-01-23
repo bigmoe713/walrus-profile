@@ -22,7 +22,7 @@ use sui::table::{Self, Table};
 use sui::transfer;
 use sui::tx_context::{Self, TxContext};
 use sui::package;
-
+use sui::option::{Self, Option};
 
 
     /* Structs */
@@ -33,7 +33,7 @@ use sui::package;
     profiles: Table<address, Profile>
 }
 
-struct Profile has key {
+struct Profile has key, store {
     id: UID,
     name: String,
     image_url: String,
@@ -47,7 +47,7 @@ struct Profile has key {
 public entry fun create_registry(ctx: &mut TxContext) {
     let registry = Registry {
         id: object::new(ctx),
-        name: string::utf8(b"Polymedia Profile Registry"),
+        name: string::utf8(b"Walrus-Profile"),
         profiles: table::new(ctx)
     };
     transfer::public_share_object(registry)

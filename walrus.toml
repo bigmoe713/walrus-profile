@@ -1,0 +1,3 @@
+name = "Walrus-Profile"
+version = "0.1.0"
+description = "Walrus Profile and registry using blob storage"
