@@ -33,7 +33,7 @@ use sui::option::{Self, Option};
     profiles: Table<address, Profile>
 }
 
-struct Profile has key, store {
+struct Profile has key, store, copy {
     id: UID,
     name: String,
     image_url: String,
@@ -42,16 +42,6 @@ struct Profile has key, store {
     image_blob_id: Option<ID>,  // optional blob reference
     registry_id: Option<ID>     // optional registry reference
 }
-
-// Add registry creation here
-public entry fun create_registry(ctx: &mut TxContext) {
-    let registry = Registry {
-        id: object::new(ctx),
-        name: string::utf8(b"Walrus-Profile"),
-        profiles: table::new(ctx)
-    };
-    transfer::public_share_object(registry)
-    }
 
 
     /* Events */
@@ -158,7 +148,7 @@ public entry fun create_profile(
         while ( index < length ) {
             let lookup_addr = *vector::borrow(&lookup_addresses, index);
             if ( table::contains(&registry.profiles, lookup_addr) ) {
-                let profile_addr = *table::borrow(&registry.profiles, lookup_addr);
+                let profile_addr: address = object::id_address(table::borrow(&registry.profiles, lookup_addr));
                 let result = LookupResult { lookup_addr, profile_addr };
                 vector::push_back(&mut results, result);
             };
@@ -240,19 +230,6 @@ public entry fun create_profile(
         transfer::public_transfer(publisher, tx_context::sender(ctx));
         transfer::public_transfer(profile_display, tx_context::sender(ctx));
     }
-}
-
-struct Registry has key {
-    id: UID,
-    profiles: Table<address, Profile>
-}
-
-public entry fun create_registry(ctx: &mut TxContext) {
-    let registry = Registry {
-        id: object::new(ctx),
-        profiles: table::new(ctx)
-    };
-    transfer::public_share_object(registry)
 }
 
 /*
